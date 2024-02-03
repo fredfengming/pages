@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="en" class="dark"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width"/><title>排序算法学习笔记<!-- --> - <!-- -->Ming&#x27;s Wiki</title><link rel="shortcut icon" href="/favicon.jpg" type="image/x-icon"/><link rel="icon" href="/favicon.jpg" type="image/x-icon"/><meta name="next-head-count" content="5"/><link rel="preload" href="/_next/static/css/1309ecc7089e6025.css" as="style" crossorigin=""/><link rel="stylesheet" href="/_next/static/css/1309ecc7089e6025.css" crossorigin="" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" crossorigin="" nomodule="" src="/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js"></script><script src="/_next/static/chunks/webpack-416aaeebcbd8b090.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/framework-4cb13ccabc5e927a.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/main-d3e05035616bf11e.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/pages/_app-7174467885d8337c.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/247-ed4563e743666ab0.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/376-d743dece79f3bdbc.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/pages/posts/%5B...slug%5D-a5651f57036efa55.js" defer="" crossorigin=""></script><script src="/_next/static/BJXPI9N12ZDX2jW9m7t5g/_buildManifest.js" defer="" crossorigin=""></script><script src="/_next/static/BJXPI9N12ZDX2jW9m7t5g/_ssgManifest.js" defer="" crossorigin=""></script></head><body><div id="__next"><div class="min-h-screen flex flex-col h-screen justify-between"><div class="bg-cover bg-center" style="background-image:url(&#x27;/assets/header.jpg&#x27;)"><div class="container mx-auto px-4"><div class="flex flex-nowrapflex-row-reverse"><div class="flex-auto m-auto"><a class="bg-black bg-opacity-50 text-2xl md:text-4xl font-bold p-1 md:p-4" rel="home" href="/">Ming&#x27;s Wiki</a></div><div class="flex-none w-16 md:w-32"><a class="bg-black align-middle bg-opacity-50 text-5xl font-bold" rel="home" href="/"><img alt="Avatar" loading="lazy" width="128" height="128" decoding="async" data-nimg="1" class="rotate-12 rounded-xl md:w-32:rounded-4xl " style="color:transparent" src="/assets/avatar.jpg"/></a></div></div></div></div><div class="w-full h-10 mb-5 bg-gray-900"><div class="container mx-auto px-4"><div class="flex justify-between items-center h-full"><ul class="flex gap-x-6 text-white"><li><a class="block py-2 pr-1 md:pr-2" href="/tools/docker">docker</a></li><li><a class="block py-2 pr-1 md:pr-2" href="/tools/kubectl">kubectl</a></li></ul></div></div></div><main class="mb-auto"><div class="container mx-auto px-4"><div class="grid grid-cols-5 gap-3"><div class="col-span-5 md:col-span-4"><article class="prose dark:prose-invert lg:prose-xl"><h1>排序算法</h1>
+<h2>速查表</h2>
+<table><thead><tr><th style="text-align:center">类型</th><th style="text-align:center">最差时间</th><th style="text-align:center">平均时间</th><th style="text-align:center">空间</th><th style="text-align:center">稳定性</th><th style="text-align:center">其它</th></tr></thead><tbody><tr><td style="text-align:center">插入排序</td><td style="text-align:center">n^2</td><td style="text-align:center"></td><td style="text-align:center">1</td><td style="text-align:center">Y</td><td style="text-align:center"></td></tr><tr><td style="text-align:center">快速排序</td><td style="text-align:center">n^2</td><td style="text-align:center">nlgn</td><td style="text-align:center">1</td><td style="text-align:center">N</td><td style="text-align:center"></td></tr><tr><td style="text-align:center">希尔排序</td><td style="text-align:center">n^2</td><td style="text-align:center"></td><td style="text-align:center">1</td><td style="text-align:center">N</td><td style="text-align:center"></td></tr><tr><td style="text-align:center">选择排序</td><td style="text-align:center">n^2</td><td style="text-align:center"></td><td style="text-align:center">1</td><td style="text-align:center">N</td><td style="text-align:center"></td></tr><tr><td style="text-align:center">冒泡排序</td><td style="text-align:center">n^2</td><td style="text-align:center"></td><td style="text-align:center">1</td><td style="text-align:center">Y</td><td style="text-align:center"></td></tr><tr><td style="text-align:center">归并排序</td><td style="text-align:center">nlgn</td><td style="text-align:center"></td><td style="text-align:center">n</td><td style="text-align:center">Y</td><td style="text-align:center"></td></tr><tr><td style="text-align:center">堆排序</td><td style="text-align:center">nlgn</td><td style="text-align:center"></td><td style="text-align:center">1</td><td style="text-align:center">N</td><td style="text-align:center"></td></tr><tr><td style="text-align:center">计数排序</td><td style="text-align:center">O(k+n)</td><td style="text-align:center"></td><td style="text-align:center"></td><td style="text-align:center"></td><td style="text-align:center"></td></tr><tr><td style="text-align:center">基数排序</td><td style="text-align:center">O(d(k+n))</td><td style="text-align:center"></td><td style="text-align:center"></td><td style="text-align:center"></td><td style="text-align:center"></td></tr><tr><td style="text-align:center">桶排序</td><td style="text-align:center">n^2</td><td style="text-align:center">n</td><td style="text-align:center">n</td><td style="text-align:center">Y</td><td style="text-align:center">快，很耗空间</td></tr></tbody></table>
+<h2>选择排序：不稳定，时间复杂度 O(n^2)</h2>
+<p>思想：每次迭代，<strong>选择</strong>最值的元素，把它放到头部</p>
+<h2>插入排序：稳定，时间复杂度 O(n^2)</h2>
+<p>思想：每次迭代，把下一个未排序的元素，<strong>插入</strong>到已排好的序列中。</p>
+<p>（选择插入位置时，可以用二分查找优化时间，但可能导致排序结果非稳定）</p>
+<h2>冒泡排序：稳定，时间复杂度 O(n^2)</h2>
+<p>思想：每次迭代，顺序交换所有相邻元素，直到最值元素完成排位。</p>
+<h2>堆排序：不稳定，时间复杂度 O(nlog n)</h2>
+<pre><code class="language-mermaid">graph TD
+zero[0]
+one[1]
+two[2]
+three[3]
+four[4]
+five[5]
+zero--&gt;one
+zero--&gt;two
+one--&gt;three
+one--&gt;four
+two--&gt;five
+</code></pre>
+<ul>
+<li>将序列看成完全二叉树的线性存储结构。<!-- -->
+<ul>
+<li>leftChild = current * 2 + 1</li>
+<li>rightChild = current * 2 + 2</li>
+</ul>
+</li>
+<li>迭代<!-- -->
+<ul>
+<li>heapfy, 将最值挪到顶部</li>
+<li>取顶部最值，交换到右下角，这样最值的最终位置就确定了。</li>
+<li>序列长度减 1，重复以上过程</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-java">//构建大根堆：将array看成完全二叉树的顺序存储结构
+private int[] buildMaxHeap(int[] array){
+    //从最后一个节点array.length-1的父节点（array.length-1-1）/2开始，直到根节点0，反复调整堆
+    for(int i=(array.length-2)/2;i&gt;=0;i--){
+        adjustDownToUp(array, i,array.length);
+    }
+    return array;
+}
+
+//将元素array[k]自下往上逐步调整树形结构
+private void adjustDownToUp(int[] array,int k,int length){
+    int temp = array[k];
+    for(int i=2*k+1; i&lt;length-1; i=2*i+1){    //i为初始化为节点k的左孩子，沿节点较大的子节点向下调整
+        if(i&lt;length &amp;&amp; array[i]&lt;array[i+1]){  //取节点较大的子节点的下标
+            i++;   //如果节点的右孩子&gt;左孩子，则取右孩子节点的下标
+        }
+        if(temp&gt;=array[i]){  //根节点 &gt;=左右子女中关键字较大者，调整结束
+            break;
+        }else{   //根节点 &lt;左右子女中关键字较大者
+            array[k] = array[i];  //将左右子结点中较大值array[i]调整到双亲节点上
+            k = i; //【关键】修改k值，以便继续向下调整
+        }
+    }
+    array[k] = temp;  //被调整的结点的值放人最终位置
+}
+
+//堆排序
+public int[] heapSort(int[] array){
+    array = buildMaxHeap(array); //初始建堆，array[0]为第一趟值最大的元素
+    for(int i=array.length-1;i&gt;1;i--){
+        int temp = array[0];  //将堆顶元素和堆低元素交换，即得到当前最大元素正确的排序位置
+        array[0] = array[i];
+        array[i] = temp;
+        adjustDownToUp(array, 0,i);  //整理，将剩余的元素整理成堆
+    }
+    return array;
+}
+
+//删除堆顶元素操作
+public int[] deleteMax(int[] array){
+    //将堆的最后一个元素与堆顶元素交换，堆底元素值设为-99999
+    array[0] = array[array.length-1];
+    array[array.length-1] = -99999;
+    //对此时的根节点进行向下调整
+    adjustDownToUp(array, 0, array.length);
+    return array;
+}
+</code></pre>
+<h2>归并排序：稳定，时间复杂度 O(nlog n)</h2>
+<ul>
+<li>递归，直到字序列为单元素或空集</li>
+<li>每次递归将两个子集合并<!-- -->
+<ul>
+<li>合并过程就是从两个子序列的头部取各自的最值</li>
+</ul>
+</li>
+</ul>
+<h2>快速排序：不稳定，时间复杂度 最理想 O(nlogn) 最差时间 O(n^2)</h2>
+<ul>
+<li>分治</li>
+<li>从序列头选取一个元素（随机或者）</li>
+<li>将选取的元素移动到合适的位置，使得左边都比它小，右边都比它大（该元素的最终位置被确定）</li>
+<li>递归处理左侧和右侧的子序列，直到子序列只剩下一个元素位置。</li>
+</ul>
+<h2>希尔排序（Shell Sort ）：不稳定，时间复杂度 平均时间 O(nlogn) 最差时间 O(n^s) 1&lt;s&lt;2</h2>
+<ul>
+<li>它是分组版本的插入排序，减少数字的移动，从而提高性能。</li>
+<li>一开始分 n/2 组，再来分 n/4 组，直到分 1 组（n 是成员总数）</li>
+<li>每次组内插入排序即可</li>
+</ul>
+<h2>桶排序</h2>
+<ol>
+<li>按值域创建很多桶</li>
+<li>按数值，把元素放进桶里</li>
+<li>最后把桶中的元素依次取出</li>
+</ol>
+<ul>
+<li>适合对值域窄的元素进行排序（比如人的年龄）</li>
+</ul></article></div><div class="hidden md:col-span-1 md:block"><table class="table-fixed w-full text-left"><thead class="dark:text-gray-400 uppercase"><tr><th scope="col" class="px-0 py-3">Utilities</th></tr></thead><tbody><tr><th scope="row" class="px-2 py-2">· <a aria-label="Docker Command Builder" href="/tools/docker">Docker Command Builder</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="Kubectl Command Builder" href="/tools/kubectl">Kubectl Command Builder</a></th></tr></tbody></table><table class="table-fixed w-full text-left"><thead class="dark:text-gray-400 uppercase"><tr><th scope="col" class="px-0 py-3">Recent Posts</th></tr></thead><tbody><tr><th scope="row" class="px-2 py-2">· <a aria-label="位操作" href="/posts/ds-&amp;-algo/bit-manipulation">位操作</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="并查集(Disjoint Set)学习笔记" href="/posts/ds-&amp;-algo/disjoint-set">并查集(Disjoint Set)学习笔记</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="排序算法学习笔记" href="/posts/ds-&amp;-algo/sort">排序算法学习笔记</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="Mermaid" href="/posts/mermaid">Mermaid</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="Binary Indexed Tree" href="/posts/ds-&amp;-algo/binary-indexed-tree">Binary Indexed Tree</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="动态规划例题" href="/posts/ds-&amp;-algo/dp">动态规划例题</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="Trie" href="/posts/ds-&amp;-algo/trie">Trie</a></th></tr></tbody></table></div></div></div></main><div class="w-full py-5 bg-gray-900"><div class="container mx-auto px-4"><p class="text-center">Copyright © 2024 Ming</p></div></div></div></div><script id="__NEXT_DATA__" type="application/json" crossorigin="">{"props":{"pageProps":{"post":{"path":"ds-\u0026-algo/sort","title":"排序算法学习笔记","excerpt":"常见排序算法的时空复杂度和思路概要","dateIsoString":"2024-01-22T21:17:00.000Z","coverImagePath":"/assets/posts/ds-\u0026-algo/sort.cover.jpg","content":"\n# 排序算法\n\n## 速查表\n\n|   类型   |   最差时间    | 平均时间 | 空间 | 稳定性 |     其它     |\n| :------: | :-----------: | :------: | :--: | :----: | :----------: |\n| 插入排序 |      n^2      |          |  1   |   Y    |              |\n| 快速排序 |      n^2      |   nlgn   |  1   |   N    |              |\n| 希尔排序 |      n^2      |          |  1   |   N    |              |\n| 选择排序 |      n^2      |          |  1   |   N    |              |\n| 冒泡排序 |      n^2      |          |  1   |   Y    |              |\n| 归并排序 |     nlgn      |          |  n   |   Y    |              |\n|  堆排序  |     nlgn      |          |  1   |   N    |              |\n| 计数排序 |   O\\(k+n\\)    |          |      |        |              |\n| 基数排序 | O\\(d\\(k+n\\)\\) |          |      |        |              |\n|  桶排序  |      n^2      |    n     |  n   |   Y    | 快，很耗空间 |\n\n## 选择排序：不稳定，时间复杂度 O\\(n^2\\)\n\n思想：每次迭代，**选择**最值的元素，把它放到头部\n\n## 插入排序：稳定，时间复杂度 O\\(n^2\\)\n\n思想：每次迭代，把下一个未排序的元素，**插入**到已排好的序列中。\n\n（选择插入位置时，可以用二分查找优化时间，但可能导致排序结果非稳定）\n\n## 冒泡排序：稳定，时间复杂度 O\\(n^2\\)\n\n思想：每次迭代，顺序交换所有相邻元素，直到最值元素完成排位。\n\n## 堆排序：不稳定，时间复杂度 O\\(nlog n\\)\n\n```mermaid\ngraph TD\nzero[0]\none[1]\ntwo[2]\nthree[3]\nfour[4]\nfive[5]\nzero--\u003eone\nzero--\u003etwo\none--\u003ethree\none--\u003efour\ntwo--\u003efive\n```\n\n- 将序列看成完全二叉树的线性存储结构。\n  - leftChild = current \\* 2 + 1\n  - rightChild = current \\* 2 + 2\n- 迭代\n  - heapfy, 将最值挪到顶部\n  - 取顶部最值，交换到右下角，这样最值的最终位置就确定了。\n  - 序列长度减 1，重复以上过程\n\n```java\n//构建大根堆：将array看成完全二叉树的顺序存储结构\nprivate int[] buildMaxHeap(int[] array){\n    //从最后一个节点array.length-1的父节点（array.length-1-1）/2开始，直到根节点0，反复调整堆\n    for(int i=(array.length-2)/2;i\u003e=0;i--){\n        adjustDownToUp(array, i,array.length);\n    }\n    return array;\n}\n\n//将元素array[k]自下往上逐步调整树形结构\nprivate void adjustDownToUp(int[] array,int k,int length){\n    int temp = array[k];\n    for(int i=2*k+1; i\u003clength-1; i=2*i+1){    //i为初始化为节点k的左孩子，沿节点较大的子节点向下调整\n        if(i\u003clength \u0026\u0026 array[i]\u003carray[i+1]){  //取节点较大的子节点的下标\n            i++;   //如果节点的右孩子\u003e左孩子，则取右孩子节点的下标\n        }\n        if(temp\u003e=array[i]){  //根节点 \u003e=左右子女中关键字较大者，调整结束\n            break;\n        }else{   //根节点 \u003c左右子女中关键字较大者\n            array[k] = array[i];  //将左右子结点中较大值array[i]调整到双亲节点上\n            k = i; //【关键】修改k值，以便继续向下调整\n        }\n    }\n    array[k] = temp;  //被调整的结点的值放人最终位置\n}\n\n//堆排序\npublic int[] heapSort(int[] array){\n    array = buildMaxHeap(array); //初始建堆，array[0]为第一趟值最大的元素\n    for(int i=array.length-1;i\u003e1;i--){\n        int temp = array[0];  //将堆顶元素和堆低元素交换，即得到当前最大元素正确的排序位置\n        array[0] = array[i];\n        array[i] = temp;\n        adjustDownToUp(array, 0,i);  //整理，将剩余的元素整理成堆\n    }\n    return array;\n}\n\n//删除堆顶元素操作\npublic int[] deleteMax(int[] array){\n    //将堆的最后一个元素与堆顶元素交换，堆底元素值设为-99999\n    array[0] = array[array.length-1];\n    array[array.length-1] = -99999;\n    //对此时的根节点进行向下调整\n    adjustDownToUp(array, 0, array.length);\n    return array;\n}\n```\n\n## 归并排序：稳定，时间复杂度 O\\(nlog n\\)\n\n- 递归，直到字序列为单元素或空集\n- 每次递归将两个子集合并\n  - 合并过程就是从两个子序列的头部取各自的最值\n\n## 快速排序：不稳定，时间复杂度 最理想 O\\(nlogn\\) 最差时间 O\\(n^2\\)\n\n- 分治\n- 从序列头选取一个元素（随机或者）\n- 将选取的元素移动到合适的位置，使得左边都比它小，右边都比它大（该元素的最终位置被确定）\n- 递归处理左侧和右侧的子序列，直到子序列只剩下一个元素位置。\n\n## 希尔排序（Shell Sort ）：不稳定，时间复杂度 平均时间 O\\(nlogn\\) 最差时间 O\\(n^s\\) 1\u0026lt;s\u0026lt;2\n\n- 它是分组版本的插入排序，减少数字的移动，从而提高性能。\n- 一开始分 n/2 组，再来分 n/4 组，直到分 1 组（n 是成员总数）\n- 每次组内插入排序即可\n\n## 桶排序\n\n1. 按值域创建很多桶\n2. 按数值，把元素放进桶里\n3. 最后把桶中的元素依次取出\n\n- 适合对值域窄的元素进行排序（比如人的年龄）\n"},"recentPostLinks":[{"text":"位操作","href":"/posts/ds-\u0026-algo/bit-manipulation"},{"text":"并查集(Disjoint Set)学习笔记","href":"/posts/ds-\u0026-algo/disjoint-set"},{"text":"排序算法学习笔记","href":"/posts/ds-\u0026-algo/sort"},{"text":"Mermaid","href":"/posts/mermaid"},{"text":"Binary Indexed Tree","href":"/posts/ds-\u0026-algo/binary-indexed-tree"},{"text":"动态规划例题","href":"/posts/ds-\u0026-algo/dp"},{"text":"Trie","href":"/posts/ds-\u0026-algo/trie"}],"utilLinks":[{"text":"Docker Command Builder","href":"/tools/docker"},{"text":"Kubectl Command Builder","href":"/tools/kubectl"}]},"__N_SSG":true},"page":"/posts/[...slug]","query":{"slug":["ds-\u0026-algo","sort"]},"buildId":"BJXPI9N12ZDX2jW9m7t5g","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>

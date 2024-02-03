@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en" class="dark"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width"/><title>并查集(Disjoint Set)学习笔记<!-- --> - <!-- -->Ming&#x27;s Wiki</title><link rel="shortcut icon" href="/favicon.jpg" type="image/x-icon"/><link rel="icon" href="/favicon.jpg" type="image/x-icon"/><meta name="next-head-count" content="5"/><link rel="preload" href="/_next/static/css/1309ecc7089e6025.css" as="style" crossorigin=""/><link rel="stylesheet" href="/_next/static/css/1309ecc7089e6025.css" crossorigin="" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" crossorigin="" nomodule="" src="/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js"></script><script src="/_next/static/chunks/webpack-416aaeebcbd8b090.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/framework-4cb13ccabc5e927a.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/main-d3e05035616bf11e.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/pages/_app-7174467885d8337c.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/247-ed4563e743666ab0.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/376-d743dece79f3bdbc.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/pages/posts/%5B...slug%5D-a5651f57036efa55.js" defer="" crossorigin=""></script><script src="/_next/static/BJXPI9N12ZDX2jW9m7t5g/_buildManifest.js" defer="" crossorigin=""></script><script src="/_next/static/BJXPI9N12ZDX2jW9m7t5g/_ssgManifest.js" defer="" crossorigin=""></script></head><body><div id="__next"><div class="min-h-screen flex flex-col h-screen justify-between"><div class="bg-cover bg-center" style="background-image:url(&#x27;/assets/header.jpg&#x27;)"><div class="container mx-auto px-4"><div class="flex flex-nowrapflex-row-reverse"><div class="flex-auto m-auto"><a class="bg-black bg-opacity-50 text-2xl md:text-4xl font-bold p-1 md:p-4" rel="home" href="/">Ming&#x27;s Wiki</a></div><div class="flex-none w-16 md:w-32"><a class="bg-black align-middle bg-opacity-50 text-5xl font-bold" rel="home" href="/"><img alt="Avatar" loading="lazy" width="128" height="128" decoding="async" data-nimg="1" class="rotate-12 rounded-xl md:w-32:rounded-4xl " style="color:transparent" src="/assets/avatar.jpg"/></a></div></div></div></div><div class="w-full h-10 mb-5 bg-gray-900"><div class="container mx-auto px-4"><div class="flex justify-between items-center h-full"><ul class="flex gap-x-6 text-white"><li><a class="block py-2 pr-1 md:pr-2" href="/tools/docker">docker</a></li><li><a class="block py-2 pr-1 md:pr-2" href="/tools/kubectl">kubectl</a></li></ul></div></div></div><main class="mb-auto"><div class="container mx-auto px-4"><div class="grid grid-cols-5 gap-3"><div class="col-span-5 md:col-span-4"><article class="prose dark:prose-invert lg:prose-xl"><h1>并查集(Disjoint Set)学习笔记</h1>
+<h2>概念</h2>
+<p>数据结构，它的以下两项运算非常高效</p>
+<ul>
+<li>判断两个元素是否属于相同的组</li>
+<li>合并两个组</li>
+</ul>
+<p>思想：</p>
+<ul>
+<li>每个元素属于一个组</li>
+<li>每个元素有一个指向组长的“组指针”（通常为外部的 hashmap），组长的“组指针”为自己。<!-- -->
+<ul>
+<li>通过对比两个元素的组长，可以快速判定它们是否同组</li>
+<li>通过修改组长的指针，可以快速合并两个组</li>
+</ul>
+</li>
+<li>寻找组长的时候，需要递归到“组指针”为自己的元素，才找到真正的组长。<!-- -->
+<ul>
+<li>递归过程中，将找到的组长更新到每个节点，这样今后的查找就被优化</li>
+</ul>
+</li>
+</ul>
+<h2>示例代码</h2>
+<pre><code class="language-java">class DSUNode {
+    DSUNode parent;
+    List&lt;DSUNode&gt; children;
+
+    public DSUNode(){
+        children = new ArrayList&lt;&gt;();
+    }
+
+    public boolean isSameGroup(DSUNode node){
+        DSUNode parent1 = this.parent == null ? this : this.parent;
+        DSUNode parent2 = node.parent == null ? node : node.parent;
+
+        return parent1 == parent2;
+    }
+
+    public void merge(DSUNode node){
+        DSUNode parent1 = this.parent == null ? this : this.parent;
+        DSUNode parent2 = node.parent == null ? node : node.parent;
+
+        if(parent1.children.size()&gt;parent2.children.size()){
+            DSUNode temp = parent1;
+            parent1 = parent2;
+            parent2 = temp;
+        }
+
+        for(int i=0;i&lt;parent2.children.size();i++){
+            DSUNode child = parent2.children.get(i);
+            parent1.children.add(child);
+            child.parent = parent1;
+        }
+
+        parent1.children.add(parent2);
+        parent2.parent = parent1;
+    }
+}
+</code></pre></article></div><div class="hidden md:col-span-1 md:block"><table class="table-fixed w-full text-left"><thead class="dark:text-gray-400 uppercase"><tr><th scope="col" class="px-0 py-3">Utilities</th></tr></thead><tbody><tr><th scope="row" class="px-2 py-2">· <a aria-label="Docker Command Builder" href="/tools/docker">Docker Command Builder</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="Kubectl Command Builder" href="/tools/kubectl">Kubectl Command Builder</a></th></tr></tbody></table><table class="table-fixed w-full text-left"><thead class="dark:text-gray-400 uppercase"><tr><th scope="col" class="px-0 py-3">Recent Posts</th></tr></thead><tbody><tr><th scope="row" class="px-2 py-2">· <a aria-label="位操作" href="/posts/ds-&amp;-algo/bit-manipulation">位操作</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="并查集(Disjoint Set)学习笔记" href="/posts/ds-&amp;-algo/disjoint-set">并查集(Disjoint Set)学习笔记</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="排序算法学习笔记" href="/posts/ds-&amp;-algo/sort">排序算法学习笔记</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="Mermaid" href="/posts/mermaid">Mermaid</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="Binary Indexed Tree" href="/posts/ds-&amp;-algo/binary-indexed-tree">Binary Indexed Tree</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="动态规划例题" href="/posts/ds-&amp;-algo/dp">动态规划例题</a></th></tr><tr><th scope="row" class="px-2 py-2">· <a aria-label="Trie" href="/posts/ds-&amp;-algo/trie">Trie</a></th></tr></tbody></table></div></div></div></main><div class="w-full py-5 bg-gray-900"><div class="container mx-auto px-4"><p class="text-center">Copyright © 2024 Ming</p></div></div></div></div><script id="__NEXT_DATA__" type="application/json" crossorigin="">{"props":{"pageProps":{"post":{"path":"ds-\u0026-algo/disjoint-set","title":"并查集(Disjoint Set)学习笔记","excerpt":"并查集简介及示例代码","dateIsoString":"2024-01-24T00:00:00.000Z","coverImagePath":"/assets/posts/ds-\u0026-algo/disjoint-set.cover.png","content":"\n# 并查集(Disjoint Set)学习笔记\n\n## 概念\n\n数据结构，它的以下两项运算非常高效\n\n- 判断两个元素是否属于相同的组\n- 合并两个组\n\n思想：\n\n- 每个元素属于一个组\n- 每个元素有一个指向组长的“组指针”（通常为外部的 hashmap），组长的“组指针”为自己。\n  - 通过对比两个元素的组长，可以快速判定它们是否同组\n  - 通过修改组长的指针，可以快速合并两个组\n- 寻找组长的时候，需要递归到“组指针”为自己的元素，才找到真正的组长。\n  - 递归过程中，将找到的组长更新到每个节点，这样今后的查找就被优化\n\n## 示例代码\n\n```java\nclass DSUNode {\n    DSUNode parent;\n    List\u003cDSUNode\u003e children;\n\n    public DSUNode(){\n        children = new ArrayList\u003c\u003e();\n    }\n\n    public boolean isSameGroup(DSUNode node){\n        DSUNode parent1 = this.parent == null ? this : this.parent;\n        DSUNode parent2 = node.parent == null ? node : node.parent;\n\n        return parent1 == parent2;\n    }\n\n    public void merge(DSUNode node){\n        DSUNode parent1 = this.parent == null ? this : this.parent;\n        DSUNode parent2 = node.parent == null ? node : node.parent;\n\n        if(parent1.children.size()\u003eparent2.children.size()){\n            DSUNode temp = parent1;\n            parent1 = parent2;\n            parent2 = temp;\n        }\n\n        for(int i=0;i\u003cparent2.children.size();i++){\n            DSUNode child = parent2.children.get(i);\n            parent1.children.add(child);\n            child.parent = parent1;\n        }\n\n        parent1.children.add(parent2);\n        parent2.parent = parent1;\n    }\n}\n```\n"},"recentPostLinks":[{"text":"位操作","href":"/posts/ds-\u0026-algo/bit-manipulation"},{"text":"并查集(Disjoint Set)学习笔记","href":"/posts/ds-\u0026-algo/disjoint-set"},{"text":"排序算法学习笔记","href":"/posts/ds-\u0026-algo/sort"},{"text":"Mermaid","href":"/posts/mermaid"},{"text":"Binary Indexed Tree","href":"/posts/ds-\u0026-algo/binary-indexed-tree"},{"text":"动态规划例题","href":"/posts/ds-\u0026-algo/dp"},{"text":"Trie","href":"/posts/ds-\u0026-algo/trie"}],"utilLinks":[{"text":"Docker Command Builder","href":"/tools/docker"},{"text":"Kubectl Command Builder","href":"/tools/kubectl"}]},"__N_SSG":true},"page":"/posts/[...slug]","query":{"slug":["ds-\u0026-algo","disjoint-set"]},"buildId":"BJXPI9N12ZDX2jW9m7t5g","isFallback":false,"gsp":true,"scriptLoader":[]}</script></body></html>
